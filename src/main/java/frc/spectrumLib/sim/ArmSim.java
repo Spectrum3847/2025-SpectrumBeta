@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-import frc.robot.RobotTelemetry;
 
 public class ArmSim {
     private SingleJointedArmSim armSim;
@@ -57,7 +56,7 @@ public class ArmSim {
 
         // armMotorSim.setRotorVelocity(
         //         armSim.getVelocityRadPerSec() * config.getRatio() / (2.0 * Math.PI));
-        RobotTelemetry.print("armSim angle: " + armSim.getAngleRads());
+
         armMotorSim.setRawRotorPosition(
                 (Units.radiansToRotations(armSim.getAngleRads() - config.getStartingAngle()))
                         * config.getRatio());

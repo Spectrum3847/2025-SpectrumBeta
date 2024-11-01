@@ -15,6 +15,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
@@ -35,6 +36,7 @@ import lombok.*;
  * Closed-loop & Motion Magic Docs:
  * https://pro.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/closed-loop-guide.html
  */
+@Logged(strategy = Logged.Strategy.OPT_IN)
 public abstract class Mechanism implements Subsystem, NTSendable {
     @Getter protected TalonFX motor;
     @Getter protected TalonFX[] followerMotors;
@@ -95,6 +97,7 @@ public abstract class Mechanism implements Subsystem, NTSendable {
      *
      * @return motor position in rotations
      */
+    @Logged
     public double getMotorPosition() {
         if (config.attached) {
             return motor.getPosition().getValueAsDouble();
@@ -115,6 +118,7 @@ public abstract class Mechanism implements Subsystem, NTSendable {
     }
 
     // Get Velocity in RPM
+    @Logged
     public double getMotorVelocityRPM() {
         return Conversions.RPStoRPM(getMotorVelocityRPS());
     }

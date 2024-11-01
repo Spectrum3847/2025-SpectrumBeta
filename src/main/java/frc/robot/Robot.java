@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.epilogue.Epilogue;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -27,6 +29,7 @@ import frc.robot.vision.VisionSystem;
 import frc.spectrumLib.util.CrashTracker;
 import lombok.Getter;
 
+@Logged // (strategy = Logged.Strategy.OPT_IN)
 public class Robot extends TimedRobot {
     @Getter private static RobotConfig robotConfig;
     @Getter private static ConfigHolder config;
@@ -78,6 +81,8 @@ public class Robot extends TimedRobot {
             /** Set up the config */
             robotConfig = new RobotConfig(); // Setup the robot config and choose which robot
             config = robotConfig.config; // This just makes it easier to access the config
+
+            Epilogue.bind(this);
 
             /**
              * Intialize the Subsystems of the robot. Subsystems are how we divide up the robot
