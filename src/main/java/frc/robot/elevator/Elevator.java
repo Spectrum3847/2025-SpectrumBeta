@@ -1,21 +1,18 @@
 package frc.robot.elevator;
 
-import com.ctre.phoenix6.sim.TalonFXSimState;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotConfig;
-import frc.robot.RobotSim;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
-import frc.spectrumLib.sim.LinearConfig;
-import frc.spectrumLib.sim.LinearSim;
 import lombok.*;
 
+@Logged
 public class Elevator extends Mechanism {
 
     public static class ElevatorConfig extends Config {
@@ -73,13 +70,13 @@ public class Elevator extends Mechanism {
     }
 
     private ElevatorConfig config;
-    private ElevatorSim sim;
+    // private ElevatorSim sim;
 
     public Elevator(ElevatorConfig config) {
         super(config);
         this.config = config;
 
-        simulationInit();
+        // simulationInit();
         telemetryInit();
         RobotTelemetry.print(getName() + " Subsystem Initialized");
     }
@@ -171,33 +168,33 @@ public class Elevator extends Mechanism {
     // --------------------------------------------------------------------------------
     // Simulation
     // --------------------------------------------------------------------------------
-    private void simulationInit() {
-        if (isAttached()) { // Only run simulation if it's attached
-            sim = new ElevatorSim(motor.getSimState(), RobotSim.leftView);
-        }
-    }
+    // private void simulationInit() {
+    //     if (isAttached()) { // Only run simulation if it's attached
+    //         sim = new ElevatorSim(motor.getSimState(), RobotSim.leftView);
+    //     }
+    // }
 
-    @Override
-    public void simulationPeriodic() {
-        if (isAttached()) { // Only run if it's attached
-            sim.simulationPeriodic();
-        }
-    }
+    // @Override
+    // public void simulationPeriodic() {
+    //     if (isAttached()) { // Only run if it's attached
+    //         sim.simulationPeriodic();
+    //     }
+    // }
 
-    class ElevatorSim extends LinearSim {
-        public ElevatorSim(TalonFXSimState elevatorMotorSim, Mechanism2d mech) {
-            super(
-                    new LinearConfig(
-                                    config.initialX,
-                                    config.initialY,
-                                    config.kElevatorGearing,
-                                    config.kElevatorDrumRadiusMeters)
-                            .setAngle(config.angle)
-                            .setMovingLength(config.getMovingLength())
-                            .setStaticLength(config.getStaticLength()),
-                    mech,
-                    elevatorMotorSim,
-                    config.getName());
-        }
-    }
+    // class ElevatorSim extends LinearSim {
+    //     public ElevatorSim(TalonFXSimState elevatorMotorSim, Mechanism2d mech) {
+    //         super(
+    //                 new LinearConfig(
+    //                                 config.initialX,
+    //                                 config.initialY,
+    //                                 config.kElevatorGearing,
+    //                                 config.kElevatorDrumRadiusMeters)
+    //                         .setAngle(config.angle)
+    //                         .setMovingLength(config.getMovingLength())
+    //                         .setStaticLength(config.getStaticLength()),
+    //                 mech,
+    //                 elevatorMotorSim,
+    //                 config.getName());
+    //     }
+    // }
 }

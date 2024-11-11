@@ -1,6 +1,7 @@
 package frc.robot.climber;
 
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -15,6 +16,7 @@ import frc.spectrumLib.sim.LinearConfig;
 import frc.spectrumLib.sim.LinearSim;
 import lombok.*;
 
+@Logged
 public class Climber extends Mechanism {
     public static class ClimberConfig extends Config {
         /* Climber positions in percent (0 - 100) of full rotation */

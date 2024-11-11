@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.epilogue.Epilogue;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -82,7 +81,7 @@ public class Robot extends TimedRobot {
             robotConfig = new RobotConfig(); // Setup the robot config and choose which robot
             config = robotConfig.config; // This just makes it easier to access the config
 
-            Epilogue.bind(this);
+            // Epilogue.bind(this);
 
             /**
              * Intialize the Subsystems of the robot. Subsystems are how we divide up the robot
