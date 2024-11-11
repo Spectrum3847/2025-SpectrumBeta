@@ -34,6 +34,7 @@ import frc.robot.RobotTelemetry;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem so it can be used
@@ -280,6 +281,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem, NTSendable {
                 this); // Subsystem for requirements
     }
 
+    @Logged
     public Command getAutoPath(String pathName) {
         return new PathPlannerAuto(pathName);
     }
