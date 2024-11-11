@@ -16,7 +16,7 @@ import frc.spectrumLib.sim.LinearConfig;
 import frc.spectrumLib.sim.LinearSim;
 import lombok.*;
 
-@Logged
+
 public class Climber extends Mechanism {
     public static class ClimberConfig extends Config {
         /* Climber positions in percent (0 - 100) of full rotation */

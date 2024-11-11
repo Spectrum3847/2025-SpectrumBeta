@@ -12,7 +12,6 @@ import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
 import lombok.*;
 
-@Logged
 public class Elevator extends Mechanism {
 
     public static class ElevatorConfig extends Config {
