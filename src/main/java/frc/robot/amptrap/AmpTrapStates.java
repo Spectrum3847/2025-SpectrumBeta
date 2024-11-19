@@ -3,8 +3,12 @@ package frc.robot.amptrap;
 import static frc.robot.RobotStates.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
 import frc.robot.amptrap.AmpTrap.AmpTrapConfig;
+import frc.spectrumLib.util.Elastic;
+import frc.spectrumLib.util.Elastic.ElasticNotification;
+import frc.spectrumLib.util.Elastic.ElasticNotification.NotificationLevel;
 
 public class AmpTrapStates {
     private static AmpTrap ampTrap = Robot.getAmpTrap();
@@ -30,7 +34,17 @@ public class AmpTrapStates {
     }
 
     public static Command intake() {
-        return ampTrap.runVelocity(config::getIntake).withName("AmpTrap.intake");
+        return ampTrap.runVelocity(config::getIntake)
+                .withName("AmpTrap.intake")
+                .alongWith(
+                        Commands.runOnce(
+                                () ->
+                                        Elastic.sendAlert(
+                                                new ElasticNotification(
+                                                        NotificationLevel.INFO,
+                                                        "Amptrap intaking",
+                                                        "",
+                                                        3000))));
     }
 
     public static Command amp() {

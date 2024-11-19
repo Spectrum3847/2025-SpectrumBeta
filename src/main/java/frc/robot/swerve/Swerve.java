@@ -31,6 +31,9 @@ import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.SpectrumSubsystem;
+import frc.spectrumLib.util.Elastic;
+import frc.spectrumLib.util.Elastic.ElasticNotification;
+import frc.spectrumLib.util.Elastic.ElasticNotification.NotificationLevel;
 import frc.spectrumLib.util.Util;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -77,6 +80,9 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
         Robot.subsystems.add(this);
         CommandScheduler.getInstance().registerSubsystem(this);
         RobotTelemetry.print(getName() + " Subsystem Initialized: ");
+        Elastic.sendAlert(
+                new ElasticNotification(
+                        NotificationLevel.INFO, getName() + " Subsystem Initialized", ""));
     }
 
     /**

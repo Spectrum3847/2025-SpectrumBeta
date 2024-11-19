@@ -27,6 +27,9 @@ import frc.spectrumLib.SpectrumSubsystem;
 import frc.spectrumLib.talonFX.TalonFXFactory;
 import frc.spectrumLib.util.CanDeviceId;
 import frc.spectrumLib.util.Conversions;
+import frc.spectrumLib.util.Elastic;
+import frc.spectrumLib.util.Elastic.ElasticNotification;
+import frc.spectrumLib.util.Elastic.ElasticNotification.NotificationLevel;
 import java.util.function.DoubleSupplier;
 import lombok.*;
 
@@ -39,6 +42,7 @@ import lombok.*;
 public abstract class Mechanism implements NTSendable, SpectrumSubsystem {
     @Getter protected TalonFX motor;
     @Getter protected TalonFX[] followerMotors;
+    protected ElasticNotification notification = new ElasticNotification();
     public Config config;
 
     public Mechanism(Config config) {
@@ -429,6 +433,14 @@ public abstract class Mechanism implements NTSendable, SpectrumSubsystem {
             if (!result.isOK()) {
                 DriverStation.reportWarning(
                         "Could not apply config changes to " + name + "\'s motor ", false);
+                // Elastic.sendAlert(
+                //         notification
+                //                 .withLevel(NotificationLevel.WARNING)
+                //                 .withTitle("Cannot apply Talon config")
+                //                 .withName(
+                //                         "Could not apply config changes to "
+                //                                 + name
+                //                                 + "\'s motor "));
             }
         }
 
@@ -583,6 +595,11 @@ public abstract class Mechanism implements NTSendable, SpectrumSubsystem {
                 talonConfig.Slot2.GravityType = gravityType;
             } else {
                 DriverStation.reportWarning("MechConfig: Invalid slot", false);
+                Elastic.sendAlert(
+                        new ElasticNotification(
+                                NotificationLevel.WARNING,
+                                "MechConfig Warning",
+                                "MechConfig: Invalid slot"));
             }
         }
 
@@ -605,6 +622,11 @@ public abstract class Mechanism implements NTSendable, SpectrumSubsystem {
                 talonConfig.Slot2.kG = kG;
             } else {
                 DriverStation.reportWarning("MechConfig: Invalid FeedForward slot", false);
+                Elastic.sendAlert(
+                        new ElasticNotification(
+                                NotificationLevel.WARNING,
+                                "MechConfig Warning",
+                                "MechConfig: Invalid FeedForward slot"));
             }
         }
 
@@ -623,6 +645,11 @@ public abstract class Mechanism implements NTSendable, SpectrumSubsystem {
                 talonConfig.Slot2.kD = kD;
             } else {
                 DriverStation.reportWarning("MechConfig: Invalid Feedback slot", false);
+                Elastic.sendAlert(
+                        new ElasticNotification(
+                                NotificationLevel.WARNING,
+                                "MechConfig Warning",
+                                "MechConfig: Invalid Feedback slot"));
             }
         }
 

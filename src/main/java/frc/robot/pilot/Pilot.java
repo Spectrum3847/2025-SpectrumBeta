@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.gamepads.Gamepad;
+import frc.spectrumLib.util.Elastic;
+import frc.spectrumLib.util.Elastic.ElasticNotification;
+import frc.spectrumLib.util.Elastic.ElasticNotification.NotificationLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -92,6 +95,8 @@ public class Pilot extends Gamepad {
                         .or(rightYTrigger(Threshold.ABS_GREATER, config.deadzone));
 
         RobotTelemetry.print("Pilot Subsystem Initialized: ");
+        Elastic.sendAlert(
+                new ElasticNotification(NotificationLevel.INFO, "Pilot Subsystem Initialized", ""));
     }
 
     public void setupStates() {
