@@ -16,6 +16,9 @@ import frc.robot.operator.Operator.OperatorConfig;
 import frc.robot.pilot.Pilot.PilotConfig;
 import frc.robot.pivot.Pivot.PivotConfig;
 import frc.robot.swerve.SwerveConfig;
+import frc.spectrumLib.Elastic;
+import frc.spectrumLib.Elastic.ElasticNotification;
+import frc.spectrumLib.Elastic.ElasticNotification.NotificationLevel;
 
 public class RobotConfig {
 
@@ -114,9 +117,17 @@ public class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
+            ElasticNotification Robot_Type_SIM_Notification =
+                    new ElasticNotification(
+                            NotificationLevel.INFO, "Robot Type: SIM", "", 3000, 350, -1);
+            Elastic.sendAlert(Robot_Type_SIM_Notification);
         } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
             robotType = RobotType.FM;
             RobotTelemetry.print("Robot Type: FM 2024");
+            ElasticNotification Robot_Type_FM_Notification =
+                    new ElasticNotification(
+                            NotificationLevel.INFO, "Robot Type: FM 2024", "", 3000, 350, -1);
+            Elastic.sendAlert(Robot_Type_FM_Notification);
         } else if (rioSerial.equals(ALPHA2024SERIAL)) {
             robotType = RobotType.AM;
             RobotTelemetry.print("Robot Type: AM 2024");
