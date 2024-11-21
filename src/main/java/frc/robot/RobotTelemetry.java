@@ -2,11 +2,9 @@ package frc.robot;
 
 import com.ctre.phoenix6.Utils;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.util.Color;
@@ -21,11 +19,6 @@ public class RobotTelemetry extends Telemetry {
 
     /* What to publish over networktables for telemetry */
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
-
-    /* Robot pose for field positioning */
-    NetworkTable table = inst.getTable("Pose");
-    DoubleArrayPublisher fieldPub = table.getDoubleArrayTopic("robotPose").publish();
-    StringPublisher fieldTypePub = table.getStringTopic(".type").publish();
 
     /* Robot speeds for general checking */
     NetworkTable driveStats = inst.getTable("Drive");

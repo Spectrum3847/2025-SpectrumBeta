@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
@@ -117,17 +119,10 @@ public class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
-            ElasticNotification Robot_Type_SIM_Notification =
-                    new ElasticNotification(
-                            NotificationLevel.INFO, "Robot Type: SIM", "", 3000, 350, -1);
-            Elastic.sendAlert(Robot_Type_SIM_Notification);
+
         } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
             robotType = RobotType.FM;
             RobotTelemetry.print("Robot Type: FM 2024");
-            ElasticNotification Robot_Type_FM_Notification =
-                    new ElasticNotification(
-                            NotificationLevel.INFO, "Robot Type: FM 2024", "", 3000, 350, -1);
-            Elastic.sendAlert(Robot_Type_FM_Notification);
         } else if (rioSerial.equals(ALPHA2024SERIAL)) {
             robotType = RobotType.AM;
             RobotTelemetry.print("Robot Type: AM 2024");
@@ -144,6 +139,11 @@ public class RobotConfig {
                     false);
             RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         }
+
+        Elastic.sendAlert(
+                new ElasticNotification(
+                        NotificationLevel.INFO, "Robot Type", robotType.name(), 10000));
+        new Alert("RobotType: " + robotType.name(), AlertType.kInfo).set(true);
         return robotType;
     }
 

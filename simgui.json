@@ -35,10 +35,7 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875,
-        "window": {
-          "visible": true
-        }
+        "width": 16.541748046875
       },
       "/SmartDashboard/VisionSystemSim-main/Sim Field": {
         "Robot": {
@@ -85,6 +82,9 @@
         "Stats": {
           "open": true
         },
+        "open": true
+      },
+      "Pose": {
         "open": true
       },
       "Robot": {
