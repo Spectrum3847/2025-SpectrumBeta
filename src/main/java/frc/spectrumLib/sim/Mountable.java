@@ -164,7 +164,10 @@ public interface Mountable {
                 mount.getAngle());
     }
 
-    /** Returns the radians a mounted object should be away from a mount based on their initial positions */
+    /**
+     * Returns the radians a mounted object should be away from a mount based on their initial
+     * positions
+     */
     static double getAngleOffset(
             double initialX, double initialY, double mountX, double mountY, double startingAngle) {
         double hypotenuse = getDistance(initialX, initialY, mountX, mountY);
