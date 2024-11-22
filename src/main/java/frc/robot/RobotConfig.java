@@ -119,7 +119,15 @@ public class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
-
+            Elastic.ElasticNotification robot_sim_notification =
+                    new ElasticNotification(
+                            Elastic.ElasticNotification.NotificationLevel.INFO,
+                            "Sim Robot",
+                            "",
+                            3000,
+                            5,
+                            3);
+            Elastic.sendAlert(robot_sim_notification);
         } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
             robotType = RobotType.FM;
             RobotTelemetry.print("Robot Type: FM 2024");
