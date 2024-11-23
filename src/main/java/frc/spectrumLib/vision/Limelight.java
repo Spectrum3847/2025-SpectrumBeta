@@ -10,50 +10,19 @@ import java.text.DecimalFormat;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Limelight {
-
+// This should be a generic LimeLight camera, individual ll types should have an extended class
+public class Limelight extends Camera {
     /* Limelight Configuration */
 
-    public static class LimelightConfig {
+    public static class LimelightConfig extends Config {
         /** Must match to the name given in LL dashboard */
         @Getter @Setter private String name;
 
-        @Getter @Setter private boolean attached = true;
-
         @Getter @Setter private boolean isIntegrating;
-        /** Physical Config */
-        @Getter private double forward, right, up; // meters
-
-        @Getter private double roll, pitch, yaw; // degrees
 
         public LimelightConfig(String name) {
+            super(name);
             this.name = name;
-        }
-
-        /**
-         * @param forward (meters) forward from center of robot
-         * @param right (meters) right from center of robot
-         * @param up (meters) up from center of robot
-         * @return
-         */
-        public LimelightConfig withTranslation(double forward, double right, double up) {
-            this.forward = forward;
-            this.right = right;
-            this.up = up;
-            return this;
-        }
-
-        /**
-         * @param roll (degrees) roll of limelight || positive is rotated right
-         * @param pitch (degrees) pitch of limelight || positive is camera tilted up
-         * @param yaw (yaw) yaw of limelight || positive is rotated left
-         * @return
-         */
-        public LimelightConfig withRotation(double roll, double pitch, double yaw) {
-            this.roll = roll;
-            this.pitch = pitch;
-            this.yaw = yaw;
-            return this;
         }
     }
 
@@ -64,15 +33,12 @@ public class Limelight {
     @Getter @Setter private String tagStatus = "";
 
     public Limelight(LimelightConfig config) {
+        super(config);
         this.config = config;
     }
 
     public Limelight(String name) {
-        config = new LimelightConfig(name);
-    }
-
-    public Limelight(String name, boolean attached) {
-        config = new LimelightConfig(name).setAttached(attached);
+        this(new LimelightConfig(name));
     }
 
     public Limelight(String cameraName, int pipeline) {
@@ -132,10 +98,6 @@ public class Limelight {
             return 0;
         }
         return LimelightHelpers.getBotPoseEstimate_wpiBlue(config.getName()).tagCount;
-
-        // if (retrieveJSON() == null) return 0;
-
-        // return retrieveJSON().targetingResults.targets_Fiducials.length;
     }
 
     /**
@@ -236,10 +198,6 @@ public class Limelight {
                 LimelightHelpers.getBotPose_wpiBlue(config.getName())[6]);
     }
 
-    /*
-     * Custom Helpers
-     */
-
     /**
      * get distance in meters to a target
      *
@@ -250,8 +208,8 @@ public class Limelight {
         if (!isAttached()) {
             return 0;
         }
-        return (targetHeight - config.up)
-                / Math.tan(Units.degreesToRadians(config.roll + getVerticalOffset()));
+        return (targetHeight - config.getUp())
+                / Math.tan(Units.degreesToRadians(config.getRoll() + getVerticalOffset()));
     }
 
     public void sendValidStatus(String message) {
@@ -263,10 +221,6 @@ public class Limelight {
         config.isIntegrating = false;
         logStatus = message;
     }
-
-    /*
-     * Utility Wrappers
-     */
 
     /** @return The latest LL results as a LimelightResults object. */
     @SuppressWarnings("unused")
@@ -282,7 +236,6 @@ public class Limelight {
         LimelightHelpers.setPipelineIndex(config.name, pipelineIndex);
     }
 
-    /** */
     public void setRobotOrientation(double degrees) {
         if (!isAttached()) {
             return;

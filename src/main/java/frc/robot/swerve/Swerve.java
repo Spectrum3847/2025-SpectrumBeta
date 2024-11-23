@@ -10,11 +10,15 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NTSendable;
@@ -136,14 +140,22 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
         return pose;
     }
 
-    public Trigger inXzone(double minXmeter, double maxXmeter) {
+    public Trigger inXzone(DoubleSupplier minXmeter, DoubleSupplier maxXmeter) {
         return new Trigger(
-                () -> Util.inRange(() -> getRobotPose().getX(), () -> minXmeter, () -> maxXmeter));
+                () ->
+                        Util.inRange(
+                                () -> getRobotPose().getX(),
+                                () -> minXmeter.getAsDouble(),
+                                () -> maxXmeter.getAsDouble()));
     }
 
-    public Trigger inYzone(double minYmeter, double maxYmeter) {
+    public Trigger inYzone(DoubleSupplier minYmeter, DoubleSupplier maxYmeter) {
         return new Trigger(
-                () -> Util.inRange(() -> getRobotPose().getY(), () -> minYmeter, () -> maxYmeter));
+                () ->
+                        Util.inRange(
+                                () -> getRobotPose().getY(),
+                                () -> minYmeter.getAsDouble(),
+                                () -> maxYmeter.getAsDouble()));
     }
 
     /**
@@ -154,9 +166,13 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
      * @param maxXmeter
      * @return
      */
-    public Trigger inXzoneAlliance(double minXmeter, double maxXmeter) {
+    public Trigger inXzoneAlliance(DoubleSupplier minXmeter, DoubleSupplier maxXmeter) {
         return new Trigger(
-                () -> Util.inRange(Field.flipXifRed(getRobotPose().getX()), minXmeter, maxXmeter));
+                () ->
+                        Util.inRange(
+                                Field.flipXifRed(getRobotPose().getX()),
+                                minXmeter.getAsDouble(),
+                                maxXmeter.getAsDouble()));
     }
 
     /**
@@ -167,9 +183,13 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
      * @param maxYmeter
      * @return
      */
-    public Trigger inYzoneAlliance(double minYmeter, double maxYmeter) {
+    public Trigger inYzoneAlliance(DoubleSupplier minYmeter, DoubleSupplier maxYmeter) {
         return new Trigger(
-                () -> Util.inRange(Field.flipYifRed(getRobotPose().getY()), minYmeter, maxYmeter));
+                () ->
+                        Util.inRange(
+                                Field.flipYifRed(getRobotPose().getY()),
+                                minYmeter.getAsDouble(),
+                                maxYmeter.getAsDouble()));
     }
 
     // Used to set a control request to the swerve module, ignores disable so commands are
@@ -277,6 +297,19 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
 
     double calculateRotationController(DoubleSupplier targetRadians) {
         return rotationController.calculate(targetRadians.getAsDouble(), getRotationRadians());
+    }
+
+    // --------------------------------------------------------------------------------
+    // Vision
+    // --------------------------------------------------------------------------------
+    public void addVisionMeasurement(
+            Pose2d visionRobotPoseMeters,
+            double timestampSeconds,
+            double xStdDev,
+            double yStdDev,
+            double thetaStdDev) {
+        Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(xStdDev, yStdDev, thetaStdDev);
+        addVisionMeasurement(visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
     }
 
     // --------------------------------------------------------------------------------

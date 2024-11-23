@@ -34,12 +34,13 @@ public class RobotStates {
     public static final Trigger ejecting = pilot.eject_fA.or(operator.eject_fA);
 
     public static final Trigger ampZone =
-            swerve.inXzoneAlliance(0, Field.getHalfLengh() / 2)
-                    .and(swerve.inYzone(Field.getHalfWidth(), Field.getFieldWidth()));
+            swerve.inXzoneAlliance(() -> 0, () -> Field.getHalfLengh() / 2)
+                    .and(swerve.inYzone(() -> Field.getHalfWidth(), () -> Field.getFieldWidth()));
 
     public static final Trigger score = pilot.score_RB;
 
-    public static final Trigger speakerZone = swerve.inXzoneAlliance(0, Field.getHalfLengh() - 1);
+    public static final Trigger speakerZone =
+            swerve.inXzoneAlliance(() -> 0, () -> (Field.getHalfLengh() - 1));
     public static final Trigger speakerPrep = pilot.launchPrep_RT.and(speakerZone);
 
     public static final Trigger subwooferPrep = pilot.subwooferPrep_fRT;
