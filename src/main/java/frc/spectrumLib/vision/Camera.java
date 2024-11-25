@@ -20,26 +20,32 @@ public abstract class Camera {
 
         @Getter @Setter private boolean attached = true;
         @Getter @Setter private boolean isPhotonCamera = false;
-        double avgErrorPx = 0.25;
-        double errorStdDevPx = 0.08;
-        double fps = 20;
-        double avgLatencyMs = 35.0;
-        double latencyStdDevMs = 5.0;
-        int resWidth = 960;
-        int resHeight = 720;
-        Rotation2d fovDiag = Rotation2d.fromDegrees(90);
+        @Getter private double avgErrorPx = 0.25;
+        @Getter private double errorStdDevPx = 0.08;
+        @Getter private double fps = 20;
+        @Getter private double avgLatencyMs = 35.0;
+        @Getter private double latencyStdDevMs = 5.0;
+        @Getter private int resWidth = 960;
+        @Getter private int resHeight = 720;
+        @Getter private Rotation2d fovDiag = Rotation2d.fromDegrees(90);
 
         @Getter @Setter private boolean isIntegrating;
         /** Physical Config */
         @Getter private double forward, right, up; // meters
 
-        @Getter private double roll, pitch, yaw; // degrees
+        @Getter private double roll, pitch, yaw; // radians
 
         Translation3d robotToCameraTranslation; // Location of the camera on the robot
         Rotation3d robotToCameraRotation; // Rotation of the camera on the robot
 
         public Config(String name) {
             this.name = name;
+            forward = 0;
+            right = 0;
+            up = 0;
+            roll = 0;
+            pitch = 0;
+            yaw = 0;
         }
 
         /**
@@ -57,9 +63,9 @@ public abstract class Camera {
         }
 
         /**
-         * @param roll (degrees) roll of limelight || positive is rotated right
-         * @param pitch (degrees) pitch of limelight || positive is camera tilted up
-         * @param yaw (yaw) yaw of limelight || positive is rotated left
+         * @param roll (radians) roll of limelight || positive is rotated right
+         * @param pitch (radians) pitch of limelight || positive is camera tilted up
+         * @param yaw (radians) yaw of limelight || positive is rotated left
          * @return
          */
         public Config withRotation(double roll, double pitch, double yaw) {

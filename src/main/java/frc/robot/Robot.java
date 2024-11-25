@@ -132,6 +132,10 @@ public class Robot extends TimedRobot {
     @Override // Deprecated
     public void robotInit() {}
 
+    /** This method runs one time after the driver station connects. */
+    @Override
+    public void driverStationConnected() {}
+
     /* ROBOT PERIODIC  */
     /**
      * This method is called periodically the entire time the robot is running. Periodic methods are

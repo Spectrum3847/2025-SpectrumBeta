@@ -138,13 +138,6 @@ public class Limelight extends Camera {
                 .pose; // 2024: all alliances use blue as 0,0
     }
 
-    public boolean hasAccuratePose() {
-        if (!isAttached()) {
-            return false;
-        }
-        return multipleTagsInView() && getTargetSize() > 0.1;
-    }
-
     /** @return the distance of the 2d vector from the camera to closest apriltag */
     public double getDistanceToTagFromCamera() {
         if (!isAttached()) {
