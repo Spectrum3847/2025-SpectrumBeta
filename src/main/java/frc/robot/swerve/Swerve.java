@@ -87,6 +87,10 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
     @Override
     public void periodic() {
         setPilotPerspective();
+        rotationController.updatePID(
+                config.getKPRotationController(), 0, config.getKDRotationController());
+        rotationController.updateHoldPID(
+                config.getKPHoldController(), 0, config.getKDHoldController());
     }
 
     public void setupStates() {
@@ -108,6 +112,18 @@ public class Swerve extends SwerveDrivetrain implements SpectrumSubsystem, NTSen
         builder.setSmartDashboardType("SwerveDrive");
         builder.addDoubleProperty("Position", () -> 2, null);
         builder.addDoubleProperty("Velocity", () -> 4, null);
+        builder.addDoubleProperty(
+                "#Rotation Controller kP",
+                config::getKPRotationController,
+                config::setKPRotationController);
+        builder.addDoubleProperty(
+                "#Rotation Controller kD",
+                config::getKDRotationController,
+                config::setKDRotationController);
+        builder.addDoubleProperty(
+                "#Hold Controller kP", config::getKPHoldController, config::setKPHoldController);
+        builder.addDoubleProperty(
+                "#Hold Controller kD", config::getKDHoldController, config::setKDHoldController);
 
         addModuleProperties(builder, "Front Left", 0);
         addModuleProperties(builder, "Front Right", 1);

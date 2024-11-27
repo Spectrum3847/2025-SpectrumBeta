@@ -33,14 +33,14 @@ public class SwerveConfig {
     // -----------------------------------------------------------------------
     @Getter private double maxAngularVelocity = 2 * Math.PI; // rad/s
     @Getter private double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2); // rad/s^2
-    @Getter private double kPRotationController = 8.0;
+    @Getter @Setter private double kPRotationController = 8.0;
     @Getter private double kIRotationController = 0.0;
-    @Getter private double kDRotationController = 0.2;
+    @Getter @Setter private double kDRotationController = 0.2;
     @Getter private double rotationTolerance = (Math.PI / 360); // rads
 
-    @Getter private double kPHoldController = 12.0;
+    @Getter @Setter private double kPHoldController = 12.0;
     @Getter private double kIHoldController = 0.0;
-    @Getter private double kDHoldController = 0.0;
+    @Getter @Setter private double kDHoldController = 0.0;
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     @Getter private final Rotation2d blueAlliancePerspectiveRotation = Rotation2d.fromDegrees(0);

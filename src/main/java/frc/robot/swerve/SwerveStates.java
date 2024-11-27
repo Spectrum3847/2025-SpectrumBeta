@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.crescendo.Field;
 import frc.robot.Robot;
-import frc.robot.RobotTelemetry;
 import frc.robot.climber.ClimberStates;
 import frc.robot.pilot.Pilot;
 import frc.spectrumLib.Rio;
@@ -131,7 +130,7 @@ public class SwerveStates {
      * ************************************************************************
      */
     protected static Command resetTurnController() {
-        return swerve.runOnce(() -> swerve.resetRotationController())
+        return Commands.runOnce(() -> swerve.resetRotationController())
                 .withName("ResetTurnController");
     }
 
@@ -207,8 +206,9 @@ public class SwerveStates {
     protected static Command lockToClosest45deg(
             DoubleSupplier velocityX, DoubleSupplier velocityY) {
         return resetTurnController()
+                .andThen(setTargetHeading(() -> swerve.getClosest45()))
+                .deadlineFor(pilotDrive())
                 .andThen(
-                        setTargetHeading(() -> swerve.getClosest45()),
                         drive(
                                 velocityX,
                                 velocityY,
@@ -222,7 +222,6 @@ public class SwerveStates {
         return () -> {
             if (Math.abs(velocityX.getAsDouble()) < 0.5
                     && Math.abs(velocityY.getAsDouble()) < 0.5) {
-                RobotTelemetry.print("Output zero");
                 return 0;
             } else {
                 return swerve.calculateRotationController(heading::getAsDouble);

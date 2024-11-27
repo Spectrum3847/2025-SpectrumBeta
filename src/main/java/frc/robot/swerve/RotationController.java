@@ -81,4 +81,8 @@ public class RotationController {
     public void updatePID(double kP, double kI, double kD) {
         controller.setPID(kP, kI, kD);
     }
+
+    public void updateHoldPID(double kP, double kI, double kD) {
+        holdController.setPID(kP, kI, kD);
+    }
 }
