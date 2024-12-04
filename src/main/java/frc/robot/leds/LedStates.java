@@ -40,8 +40,10 @@ public class LedStates {
     }
 
     static void teleopPattern(Trigger trigger) {
-        ledDefaultCommand("right.teleopPattern", right, right.bounce(right.purple, 3), trigger);
-        ledDefaultCommand("left.teleopPattern", left, left.bounce(left.purple, 3), trigger);
+        // ledDefaultCommand("right.teleopPattern", right, right.bounce(right.purple, 3), trigger);
+        // ledDefaultCommand("left.teleopPattern", left, left.bounce(left.purple, 3), trigger);
+        ledDefaultCommand("right.teleopPattern", right, right.dynamic(), trigger);
+        ledDefaultCommand("left.teleopPattern", left, left.dynamic(), trigger);
     }
 
     static void autoPattern(Trigger trigger) {

@@ -417,6 +417,20 @@ public class SpectrumLEDs implements SpectrumSubsystem {
         };
     }
 
+    public LEDPattern dynamic() {
+        return new LEDPattern() {
+            @Override
+            public void applyTo(LEDReader reader, LEDWriter writer) {
+                int bufLen = reader.getLength();
+                for (int led = 0; led < bufLen; led++) {
+                    Color c =
+                            new Color(
+                                    Math.random() * 256, Math.random() * 256, Math.random() * 256);
+                    writer.setLED(led, c);
+                }
+            }
+        };
+    }
     // LEDPattern Methods
     // reversed()
     // offsetBy(int offset)
